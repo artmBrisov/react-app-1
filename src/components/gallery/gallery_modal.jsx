@@ -32,13 +32,13 @@ let ModalWrapper = styled.div`
 
 let ModalDiv = styled.div`
     width: 60%;
-    min-height: 50%;
+    height: 60%;
     background-color: white;
     position: relative;
     
     @media screen and (max-width: 960px) {
         width: 80%;
-        min-height: 50%;
+        height: 60%;
     }    
         
     @media screen and (max-width: 600px) {
@@ -96,7 +96,7 @@ let FormSection = styled.div`
       width: 100%;
       margin-left: 10px;
       margin-right: 10px;
-   }
+   }  
 `
 
 let ModalBody = styled.div`
@@ -115,8 +115,10 @@ let ModalBody = styled.div`
 
 let LoaderWrapper = styled.div`
   width: 100%;
-  height: 80%;
+  height: 100%;
   position: absolute;
+  background-color: white;
+  z-index: 100000;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -186,7 +188,7 @@ export class GalleryModal extends React.Component {
         try {
             if (loadUrl != null) {
                 let data = await (await fetch(loadUrl)).json();
-                this.setState({loadUrl : loadUrl, id : data.id, url : data.url, comments : data.comments, isInit : true});
+                this.setState({loadUrl : loadUrl, id : data.id, url : data.url, comments : data.comments});
             } else {
                 setTimeout(() =>
                     this.setState({loadUrl : null, url : null, id : null, comments : [], isInit : false}), 200);
@@ -198,15 +200,23 @@ export class GalleryModal extends React.Component {
     }
 
     renderLoader() {
-        return <LoaderWrapper>
-            <Loader />
-        </LoaderWrapper>
+        if (!this.state.isInit)
+            return <LoaderWrapper>
+                <Loader />
+            </LoaderWrapper>
+    }
+
+    imageLoadHandle(ev) {
+        this.setState({ isInit : true});
     }
 
     renderMain() {
         return <>
             <LeftSection>
-                {this.state.loadUrl != null ? <ModalImage url={this.state.url} alt={"Selected image"} /> : ""}
+                {this.state.loadUrl != null ? <ModalImage
+                    onLoad={this.imageLoadHandle.bind(this)}
+                    url={this.state.url} alt={"Selected image"} /> : ""
+                }
             </LeftSection>
             <RightSection>
                 <Comments comments={this.state.comments} />
@@ -221,8 +231,9 @@ export class GalleryModal extends React.Component {
         return <ModalWrapper className={this.props.className} onKeyUp={this.props.onKeyPress} tabIndex={-1}>
             <ModalCloseButton onClick={this.props.onClick}>{`\u00d7`}</ModalCloseButton>
             <ModalDiv>
+                {this.renderLoader()}
                 <ModalBody>
-                    {this.state.isInit ? this.renderMain() : this.renderLoader()}
+                    {this.renderMain()}
                 </ModalBody>
             </ModalDiv>
             <Snackbar bgColor={"red"} text={this.state.error.message} visible={this.state.error.thrown}/>

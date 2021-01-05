@@ -1,5 +1,6 @@
 # React Gallery
 ### Реализация https://github.com/avito-tech/safedeal-frontend-trainee
+### Live demo https://pages.github.com/artmBrisov/react-app-1/dist/
 
 ## Простое приложение - галерея, написанное с использованием:
  - React 

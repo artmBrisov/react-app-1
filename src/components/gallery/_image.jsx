@@ -56,8 +56,9 @@ export class Image extends React.Component {
         if (prevProps.url !== this.props.url) this.setState({isImageLoaded : false});
     }
 
-    loadHandler() {
+    loadHandler(ev) {
         this.setState({isImageLoaded: true});
+        if (this.props.onLoad) this.props.onLoad(ev);
     }
 
     render() {
