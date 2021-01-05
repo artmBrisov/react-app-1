@@ -1,5 +1,5 @@
 # React Gallery
-### [Задание взато отсюда]
+### [Задание взято отсюда]
 ### [DEMO]
 
 [Задание взято отсюда]: https://github.com/avito-tech/safedeal-frontend-trainee
