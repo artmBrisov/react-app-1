@@ -32,13 +32,13 @@ let ModalWrapper = styled.div`
 
 let ModalDiv = styled.div`
     width: 60%;
-    height: 60%;
+    min-height: 60%;
     background-color: white;
     position: relative;
     
     @media screen and (max-width: 960px) {
         width: 80%;
-        height: 60%;
+        min-height: 60%;
     }    
         
     @media screen and (max-width: 600px) {
