@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-let Wrapper = styled.div`
+import {Loader} from './_loader.jsx';
+
+export const Wrapper = styled.div`
     width: 30%;
     margin-bottom: 30px;
     margin-left: 20px;
@@ -17,24 +19,93 @@ let Wrapper = styled.div`
     }
 `;
 
-let Img = styled.img`
+const Img = styled.img`
     width: 100%;
     height: auto;
+    
+    &.image-visible {
+      visibility: visible;
+    }
+    
+    &.image-hidden {
+      visibility: hidden;
+    }
 `;
-
-export const Image = ({url, alt}) => {
-    return <Wrapper>
-        <Img src={url} alt={alt} />
-    </Wrapper>
-}
 
 let ClickableImg = styled(Img)`
      cursor: pointer;
 `;
 
-export const ClickableImage = ({url, alt, id, onClick}) => {
-    let clickHandler = () => onClick(id);
-    return <Wrapper>
-        <ClickableImg alt={alt} src={url} onClick={clickHandler} />
-    </Wrapper>
+let FullSizeWrapper = styled(Wrapper)`
+    width: 100%;
+    margin: 0;
+`;
+
+export class Image extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isImageLoaded : false
+        }
+
+        this.loadHandler = this.loadHandler.bind(this);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.url !== this.props.url) this.setState({isImageLoaded : false});
+    }
+
+    loadHandler() {
+        this.setState({isImageLoaded: true});
+    }
+
+    render() {
+        return <Wrapper>
+            <Loader className={this.state.isImageLoaded === false ? "loader-visible" : "loader-hidden"} />
+            <Img
+                src={this.props.url}
+                alt={this.props.alt}
+                className={this.state.isImageLoaded ? "image-visible" : "image-hidden"}
+                onLoad={this.loadHandler}/>
+            </Wrapper>
+    }
+}
+
+export class ClickableImage extends Image {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return <Wrapper>
+            <Loader className={this.state.isImageLoaded === false ? "loader-visible" : "loader-hidden"} />
+            <ClickableImg
+                src={this.props.url}
+                alt={this.props.alt}
+                className={this.state.isImageLoaded ? "image-visible" : "image-hidden"}
+                onLoad={this.loadHandler}
+                onClick={this.props.onClick}
+                id={this.props.id}
+            />
+        </Wrapper>
+    }
+}
+
+export class ModalImage extends Image {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return <FullSizeWrapper>
+            <Loader className={this.state.isImageLoaded === false ? "loader-visible" : "loader-hidden"} />
+            <Img
+                src={this.props.url}
+                alt={this.props.alt}
+                className={this.state.isImageLoaded ? "image-visible" : "image-hidden"}
+                onLoad={this.loadHandler}
+            />
+        </FullSizeWrapper>
+    }
 }

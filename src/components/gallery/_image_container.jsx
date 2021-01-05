@@ -19,7 +19,7 @@ export const ImageContainer = ({images, onClick}) => {
                 id={i.id}
                 alt={`Image ${i.id}`}
                 url={i.url}
-                onClick={onClick}
+                onClick={() => onClick(i.id)}
                 key={i.id} />
             )}
         </Container>

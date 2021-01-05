@@ -1,10 +1,14 @@
 const path = require('path');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
     plugins: [
-        new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            template: "./src/index.html",
+            inject: true,
+            minify: false
+        }),
     ],
     entry: "./src/index.js",
     output: {
@@ -18,15 +22,14 @@ module.exports = {
                 test: /\.(js|jsx)$/i,
                 use: ['babel-loader']
             },
-            {
-                test: /\.css$/i,
-                use: ["style-loader", "css-loader"],
-            },
         ],
     },
-    watch: true,
-    watchOptions: {
-        ignored: ["node_modules"]
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'),
+        compress: true,
+        port: 9000,
+        open: true,
+        hot: true
     },
     devtool: 'source-map',
     optimization: {

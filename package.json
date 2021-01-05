@@ -1,28 +1,26 @@
 {
   "name": "avito-frontend-ta-1",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple Gallery application written on React and styled-components",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --config=webpack.config.dev.js",
+    "dev": "webpack-dev-server --config=webpack.config.dev.js",
     "build": "webpack --config=webpack.config.prod.js"
   },
   "author": "Aleksandr Bushuev",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.12.10",
-    "@babel/plugin-transform-runtime": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.2.2",
+    "babel-plugin-styled-components": "^1.12.0",
     "clean-webpack-plugin": "^3.0.0",
-    "css-loader": "^5.0.1",
-    "eslint": "^7.17.0",
-    "style-loader": "^2.0.0",
+    "html-webpack-plugin": "^4.5.1",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
-    "babel-plugin-styled-components": "^1.12.0"
+    "webpack-dev-server": "^3.11.1"
   },
   "dependencies": {
     "react": "^17.0.1",

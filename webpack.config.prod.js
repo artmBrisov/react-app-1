@@ -18,17 +18,9 @@ module.exports = {
                 test: /\.(js|jsx)$/i,
                 use: ['babel-loader']
             },
-            {
-                test: /\.css$/i,
-                use: ["style-loader", "css-loader"],
-            },
         ],
     },
-    watch: true,
-    watchOptions: {
-        ignored: ["node_modules"]
-    },
     optimization: {
-        minimize: true
+        minimize: true,
     }
 }
