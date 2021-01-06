@@ -43,7 +43,8 @@ let ModalDiv = styled.div`
         
     @media screen and (max-width: 600px) {
         width: 100%;
-        height: 100%;
+        height: 110%;
+        overflow-y: auto;
     }
 `;
 
@@ -143,6 +144,13 @@ export class GalleryModal extends React.Component {
         };
 
         this.SNACKBAR_LIFETIME = 2500;
+
+        this.formRef = React.createRef();
+
+        this.closeButtonClickListener = () => {
+            this.formRef.current.clear();
+            this.props.onClick();
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -195,7 +203,7 @@ export class GalleryModal extends React.Component {
 
             }
         } catch (e) {
-            console.log(e.message)
+           this.setError("Не удалось загрузить картинку");
         }
     }
 
@@ -222,14 +230,14 @@ export class GalleryModal extends React.Component {
                 <Comments comments={this.state.comments} />
             </RightSection>
             <FormSection>
-                <GalleryForm onSubmit={this.postComment.bind(this)}/>
+                <GalleryForm ref={this.formRef} onSubmit={this.postComment.bind(this)}/>
             </FormSection>
         </>
     }
 
     render() {
         return <ModalWrapper className={this.props.className} onKeyUp={this.props.onKeyPress} tabIndex={-1}>
-            <ModalCloseButton onClick={this.props.onClick}>{`\u00d7`}</ModalCloseButton>
+            <ModalCloseButton onClick={this.closeButtonClickListener}>{`\u00d7`}</ModalCloseButton>
             <ModalDiv>
                 {this.renderLoader()}
                 <ModalBody>

@@ -139,7 +139,10 @@ export class GalleryForm extends React.Component {
 
             if (totalValidationResult) {
                 let submit = this.props.onSubmit;
-                if (submit) submit({"username" : this.state.username.value, "comment" : this.state.comment.value})
+                if (submit) {
+                    submit({"username" : this.state.username.value, "comment" : this.state.comment.value})
+                    this.clear();
+                }
             }
         }
     }
@@ -154,6 +157,26 @@ export class GalleryForm extends React.Component {
             }
         }
         return errorMessage;
+    }
+
+    clear() {
+        this.setState({username : {
+            value : "",
+                isValid : undefined,
+                errorMessage : "",
+            },
+            comment : {
+                value : "",
+                    isValid: undefined,
+                    errorMessage: ""
+                }
+            }
+        );
+
+        Object.values(this.inputRefs).forEach(refAndRule => {
+            let ref = refAndRule.ref;
+            ref.current.value = "";
+        });
     }
 
     getClassNameFor(name) {
